@@ -1,3 +1,4 @@
-const displayMessage = require('./0-console');
+#!/usr/bin/node
 
+const displayMessage = require('./0-console');
 displayMessage("Hello NodeJS!");
