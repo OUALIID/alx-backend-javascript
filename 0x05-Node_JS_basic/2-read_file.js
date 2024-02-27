@@ -9,7 +9,7 @@ function countStudents (filePath) {
     const sweNames = [];
 
     for (let i = 1; i < data.length; i++) {
-      const columns = data[i].trim().split(',');
+      const columns = data[i].split(',');
 
       if (columns[3] === 'CS') {
         CS++;
