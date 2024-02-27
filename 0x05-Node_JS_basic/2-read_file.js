@@ -2,7 +2,7 @@ const fs = require('fs');
 
 function countStudents(filePath) {
   try {
-    const data = fs.readFileSync(filePath, 'utf8').trim().split('\n');
+    const data = fs.readFileSync(filePath, 'utf8').split('\n');
     let NUMBER_OF_STUDENTS = 0;
     const csNames = [];
     const sweNames = [];
