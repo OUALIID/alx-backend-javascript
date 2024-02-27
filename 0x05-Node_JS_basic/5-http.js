@@ -1,12 +1,12 @@
 const http = require('http');
 const { readFile } = require('fs').promises;
 
-const countStudents = async () => {
+const countStudents = async (filePath) => {
   try {
     const fields = new Map();
     let NumStd = 0;
     const globalText = [];
-    let contents = await readFile(process.argv[2], 'utf8');
+    let contents = await readFile(filePath, 'utf8');
     contents = contents.split('\n');
     for (let i = 0; i < contents.length; i += 1) {
       if (
@@ -32,29 +32,27 @@ const countStudents = async () => {
     throw new Error('Cannot load the database');
   }
 };
+
 const hostname = '127.0.0.1';
 const port = 1245;
-const app = http.createServer((req, res) => {
+
+const app = http.createServer(async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
+
   if (req.url === '/') {
     res.write('Hello Holberton School!');
     res.end();
-  }
-  if (req.url === '/students') {
-    res.write('This is the list of our students\n');
-    countStudents(res)
-      .then((data) => {
-        res.end(data.join('\n'));
-      })
-      .catch((err) => {
-        res.statusCode = 404;
-        res.end(err.message);
-      });
+  } else if (req.url === '/students') {
+    try {
+      const data = await countStudents('database.csv');
+      res.write('This is the list of our students\n');
+      res.end(data.join('\n'));
+    } catch (error) {
+      res.statusCode = 404;
+      res.end(error.message);
+    }
   }
 });
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
-
+app.listen(1245);
 module.exports = app;
