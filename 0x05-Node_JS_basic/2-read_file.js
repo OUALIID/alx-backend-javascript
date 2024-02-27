@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function countStudents (filePath) {
+function countStudents(filePath) {
   try {
     const data = fs.readFileSync(filePath, 'utf8').trim().split('\n');
     let NUMBER_OF_STUDENTS = 0;
@@ -9,18 +9,18 @@ function countStudents (filePath) {
     let CS = 0;
     let SWE = 0;
 
-    for (let i = 1; i < data.length; i++) {
+    for (let i = 1; i < data.length; i += 1) {
       const columns = data[i].split(',');
 
       if (columns.length >= 4) {
         if (columns[3] === 'CS') {
-          CS++;
+          CS += 1;
           csNames.push(columns[0]);
         } else if (columns[3] === 'SWE') {
-          SWE++;
+          SWE += 1;
           sweNames.push(columns[0]);
         }
-        NUMBER_OF_STUDENTS++;
+        NUMBER_OF_STUDENTS += 1;
       }
     }
     console.log(`Number of students: ${NUMBER_OF_STUDENTS}`);
