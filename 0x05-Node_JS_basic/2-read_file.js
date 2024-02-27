@@ -3,8 +3,8 @@ const fs = require('fs');
 function countStudents (path) {
   try {
     const data = fs.readFileSync(path, 'utf8').trim().split('\n');
-    let CS = 0; let SWE = 0;
-
+    let CS = 0;
+    let SWE = 0;
     const csNames = [];
     const sweNames = [];
 
