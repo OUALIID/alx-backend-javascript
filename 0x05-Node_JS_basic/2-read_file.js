@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-function countStudents(filePath) {
+function countStudents (filePath) {
   try {
     const data = fs.readFileSync(filePath, 'utf8').trim().split('\n');
-    let CS = 0, SWE = 0;
-    let csNames = [];
-    let SWENames = [];
+    let CS = 0; let SWE = 0;
+    const csNames = [];
+    const SWENames = [];
 
     for (let i = 1; i < data.length; i++) {
       const columns = data[i].split(',');
-  
+
       if (columns[3] === 'CS') {
         CS++;
         csNames.push(columns[0]);
