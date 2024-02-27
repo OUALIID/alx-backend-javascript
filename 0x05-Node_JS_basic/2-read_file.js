@@ -17,7 +17,6 @@ function countStudents (filePath) {
         SWENames.push(columns[0]);
       }
     }
-
     const totalStudents = CS + SWE;
     console.log(`Number of students: ${totalStudents}`);
     console.log(`Number of students in CS: ${CS}. List: ${csNames.join(', ')}`);
