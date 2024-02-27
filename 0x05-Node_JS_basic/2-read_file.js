@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-function countStudents (path) {
+function countStudents (filePath) {
   try {
-    const data = fs.readFileSync(path, 'utf8').trim().split('\n');
+    const data = fs.readFileSync(filePath, 'utf8').trim().split('\n');
     let CS = 0;
     let SWE = 0;
     const csNames = [];
     const sweNames = [];
 
     for (let i = 1; i < data.length; i++) {
-      const columns = data[i].split(',');
+      const columns = data[i].trim().split(',');
 
       if (columns[3] === 'CS') {
         CS++;
@@ -23,6 +23,7 @@ function countStudents (path) {
     console.log(`Number of students in CS: ${CS}. List: ${csNames.join(', ')}`);
     console.log(`Number of students in SWE: ${SWE}. List: ${sweNames.join(', ')}`);
   } catch (error) {
+    console.error('Cannot load the database');
     throw new Error('Cannot load the database');
   }
 }
