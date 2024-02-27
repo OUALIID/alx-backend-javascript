@@ -3,11 +3,11 @@ const fs = require('fs');
 function countStudents (filePath) {
   try {
     const data = fs.readFileSync(filePath, 'utf8').trim().split('\n');
-    let CS = 0;
-    let SWE = 0;
-    let all = 0;
+    let NUMBER_OF_STUDENTS = 0;
     const csNames = [];
     const sweNames = [];
+    let CS = 0;
+    let SWE = 0;
 
     for (let i = 1; i < data.length; i++) {
       const columns = data[i].split(',');
@@ -20,10 +20,10 @@ function countStudents (filePath) {
           SWE++;
           sweNames.push(columns[0]);
         }
-        all++;
+        NUMBER_OF_STUDENTS++;
       }
     }
-    console.log(`Number of students: ${all}`);
+    console.log(`Number of students: ${NUMBER_OF_STUDENTS}`);
     console.log(`Number of students in CS: ${CS}. List: ${csNames.join(', ')}`);
     console.log(`Number of students in SWE: ${SWE}. List: ${sweNames.join(', ')}`);
   } catch (error) {
