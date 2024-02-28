@@ -1,34 +1,35 @@
 const readDatabase = require('../utils');
 
 class StudentsController {
-  static async getAllStudents(req, res) {
-    try {
-      const path = process.argv[2];
-      const result = await readDatabase(path);
-      let string = 'This is the list of our students';
-      Object.entries(result).forEach(([key, value]) => {
-        string += `\nNumber of students in ${key}: ${value.length}. List: ${value.join(', ')}`;
-      });
-      res.status(200).send(string);
-    } catch {
-      res.status(500).send('Cannot load the database');
-    }
+  static getAllStudents(req, res) {
+    const path = process.argv[2];
+    readDatabase(path)
+      .then((result) => {
+        const object = Object.keys(result).sort();
+        let string = 'This is the list of our students';
+        for (const key of object) {
+          const numberOfStudents = result[key].length;
+          const lineOfNames = result[key].join(', ');
+          string += `\nNumber of students in ${key}: ${numberOfStudents}. List: ${lineOfNames}`;
+        }
+        res.status(200).send(string);
+      })
+      .catch(() => res.status(500).send('Cannot load the database'));
   }
 
-  static async getAllStudentsByMajor(req, res) {
+  static getAllStudentsByMajor(req, res) {
     const { major } = req.params;
-    const validMajors = ['CS', 'SWE'];
-    if (!validMajors.includes(major)) {
-      res.status(500).send('Major parameter must be CS or SWE');
-      return;
-    }
-    try {
+    if (major === 'CS' || major === 'SWE') {
       const path = process.argv[2];
-      const result = await readDatabase(path);
-      const string = `List: ${result[major].join(', ')}`;
-      res.status(200).send(string);
-    } catch {
-      res.status(500).send('Cannot load the database');
+      readDatabase(path)
+        .then((result) => {
+          const listOfStudent = result[major].join(', ');
+          const string = `List: ${listOfStudent}`;
+          res.status(200).send(string);
+        })
+        .catch(() => res.status(500).send('Cannot load the database'));
+    } else {
+      res.status(500).send('Major parameter must be CS or SWE');
     }
   }
 }
