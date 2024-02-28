@@ -1,14 +1,16 @@
-class StudentsController {
-  static getAllStudents(req, res) {
-    const studentsPerField = {
-      CS: ['Johann', 'Arielle', 'Jonathan', 'Emmanuel', 'Guillaume', 'Katie'],
-      SWE: ['Guillaume', 'Joseph', 'Paul', 'Tommy'],
-    };
+const { readDatabase } = require('../utils');
 
-    const responseBody = Object.entries(studentsPerField)
-      .map(([field, students]) => `Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`)
-      .join('\n');
-    res.status(200).send(`This is the list of our students\n${responseBody}`);
+class StudentsController {
+  static async getAllStudents(req, res) {
+    try {
+      const studentData = await readDatabase();
+      const responseBody = Object.entries(studentData)
+        .map(([field, students]) => `Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`)
+        .join('\n');
+      res.status(200).send(`This is the list of our students\n${responseBody}`);
+    } catch (error) {
+      res.status(500).send('Cannot load the database');
+    }
   }
 
   static getAllStudentsByMajor(req, res) {
