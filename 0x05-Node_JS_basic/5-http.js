@@ -1,9 +1,6 @@
 const http = require('http');
 const fs = require('fs');
 
-const fileName = process.argv[2];
-const host = 'localhost';
-
 function countStudents(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -18,18 +15,18 @@ function countStudents(filePath) {
         let CS = 0;
         let SWE = 0;
 
-        for (let i = 1; i < rows.length; i++) {
+        for (let i = 1; i < rows.length; i += 1) {
           const columns = rows[i].split(',');
 
           if (columns.length >= 4) {
             if (columns[3] === 'CS') {
-              CS++;
+              CS += 1;
               csNames.push(columns[0]);
             } else if (columns[3] === 'SWE') {
-              SWE++;
+              SWE += 1;
               sweNames.push(columns[0]);
             }
-            NUMBER_OF_STUDENTS++;
+            NUMBER_OF_STUDENTS += 1;
           }
         }
 
@@ -49,18 +46,15 @@ const app = http.createServer((req, res) => {
   if (req.url === '/') {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
-    countStudents(fileName)
-      .then(responseBody => {
+    countStudents(process.argv[2])
+      .then((responseBody) => {
         res.end(responseBody);
       })
-      .catch(error => {
+      .catch((error) => {
         res.end(`This is the list of our students\n${error.message}`);
       });
   }
 });
 
-const port = 1245;
-app.listen(port, () => {
-  console.log(`Server is running on http://${host}:${port}`);
-});
+app.listen(1245);
 module.exports = app;
