@@ -1,35 +1,34 @@
 const readDatabase = require('../utils');
 
 class StudentsController {
-  static getAllStudents(request, response) {
-    const path = process.argv[2];
-    readDatabase(path)
-      .then((result) => {
-        const object = Object.keys(result).sort();
-        let string = 'This is the list of our students';
-        for (const key of object) {
-          const numberOfStudents = result[key].length;
-          const lineOfNames = result[key].join(', ');
-          string += `\nNumber of students in ${key}: ${numberOfStudents}. List: ${lineOfNames}`;
-        }
-        response.status(200).send(string);
-      })
-      .catch(() => response.status(500).send('Cannot load the database'));
+  static async getAllStudents(req, res) {
+    try {
+      const path = process.argv[2];
+      const result = await readDatabase(path);
+      let string = 'This is the list of our students';
+      Object.entries(result).forEach(([key, value]) => {
+        string += `\nNumber of students in ${key}: ${value.length}. List: ${value.join(', ')}`;
+      });
+      res.status(200).send(string);
+    } catch {
+      res.status(500).send('Cannot load the database');
+    }
   }
 
-  static getAllStudentsByMajor(request, response) {
-    const { major } = request.params;
-    if (major === 'CS' || major === 'SWE') {
+  static async getAllStudentsByMajor(req, res) {
+    const { major } = req.params;
+    const validMajors = ['CS', 'SWE'];
+    if (!validMajors.includes(major)) {
+      res.status(500).send('Major parameter must be CS or SWE');
+      return;
+    }
+    try {
       const path = process.argv[2];
-      readDatabase(path)
-        .then((result) => {
-          const listOfStudent = result[major].join(', ');
-          const string = `List: ${listOfStudent}`;
-          response.status(200).send(string);
-        })
-        .catch(() => response.status(500).send('Cannot load the database'));
-    } else {
-      response.status(500).send('Major parameter must be CS or SWE');
+      const result = await readDatabase(path);
+      const string = `List: ${result[major].join(', ')}`;
+      res.status(200).send(string);
+    } catch {
+      res.status(500).send('Cannot load the database');
     }
   }
 }
