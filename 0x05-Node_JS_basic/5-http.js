@@ -50,6 +50,9 @@ const app = http.createServer((req, res) => {
       .then((responseBody) => {
         res.end(responseBody);
       })
+      .catch((error) => {
+        res.end(`This is the list of our students\n`);
+      });
   }
 });
 app.listen(1245);
