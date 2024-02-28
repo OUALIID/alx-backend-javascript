@@ -13,19 +13,20 @@ class StudentsController {
     }
   }
 
-  static getAllStudentsByMajor(req, res) {
-    const students = {
-      CS: ['Johann', 'Arielle', 'Jonathan', 'Emmanuel', 'Guillaume', 'Katie'],
-      SWE: ['Guillaume', 'Joseph', 'Paul', 'Tommy'],
-    };
-
-    const { major } = req.params;
-    if (!students[major]) {
-      res.status(500).send('Major parameter must be CS or SWE');
-    } else {
-      res.status(200).send(`List: ${students[major].join(', ')}`);
+  static async getAllStudentsByMajor(req, res) {
+    try {
+      const studentData = await readDatabase();
+      const { major } = req.params;
+      if (!studentData[major]) {
+        res.status(500).send('Major parameter must be CS or SWE');
+      } else {
+        res.status(200).send(`List: ${studentData[major].join(', ')}`);
+      }
+    } catch (error) {
+      res.status(500).send('Cannot load the database');
     }
   }
 }
 
 module.exports = StudentsController;
+
