@@ -30,11 +30,11 @@ function countStudents(filePath) {
           }
         }
 
-        const response_data = `This is the list of our students
+        const responseBody = `This is the list of our students
 Number of students: ${NUMBER_OF_STUDENTS}
 Number of students in CS: ${CS}. List: ${csNames.join(', ')}
 Number of students in SWE: ${SWE}. List: ${sweNames.join(', ')}`;
-        resolve(response_data);
+        resolve(responseBody);
       }
     });
   });
@@ -47,8 +47,8 @@ const app = http.createServer((req, res) => {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     countStudents(process.argv[2])
-      .then((response_data) => {
-        res.end(response_data);
+      .then((responseBody) => {
+        res.end(responseBody);
       })
       .catch((error) => {
         res.end(`This is the list of our students\n${error.message}`);
