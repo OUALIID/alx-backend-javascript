@@ -1,48 +1,54 @@
 const http = require('http');
-const { readFile } = require('fs').promises;
+const fs = require('fs');
 
-const countStudents = async () => {
-  try {
-    const fields = new Map();
-    let NumStd = 0;
-    const globalText = [];
-    let contents = await readFile(process.argv[2], 'utf8');
-    contents = contents.split('\n');
-    for (let i = 0; i < contents.length; i += 1) {
-      if (
-        contents[i].length > 0
-        && contents[i] !== 'firstname,lastname,age,field'
-      ) {
-        const data = contents[i].split(',');
-        if (fields.has(data[3]) === false) {
-          fields.set(data[3], []);
+function countStudents(filePath) {
+  return new Promise((resolve, reject) => {
+    try {
+      const data = fs.readFileSync(filePath, 'utf8').split('\n');
+      let NUMBER_OF_STUDENTS = 0;
+      const csNames = [];
+      const sweNames = [];
+      let CS = 0;
+      let SWE = 0;
+
+      for (let i = 1; i < data.length; i += 1) {
+        const columns = data[i].split(',');
+
+        if (columns.length >= 4) {
+          if (columns[3] === 'CS') {
+            CS += 1;
+            csNames.push(columns[0]);
+          } else if (columns[3] === 'SWE') {
+            SWE += 1;
+            sweNames.push(columns[0]);
+          }
+          NUMBER_OF_STUDENTS += 1;
         }
-        fields.get(data[3]).push(data[0]);
-        NumStd += 1;
       }
+
+      const output = [];
+      output.push(`Number of students: ${NUMBER_OF_STUDENTS}`);
+      output.push(`Number of students in CS: ${CS}. List: ${csNames.join(', ')}`);
+      output.push(`Number of students in SWE: ${SWE}. List: ${sweNames.join(', ')}`);
+
+      resolve(output);
+    } catch (error) {
+      console.error('Cannot load the database');
+      reject(new Error('Cannot load the database'));
     }
-    globalText.push(`Number of students: ${NumStd}`);
-    for (const [index, field] of fields.entries()) {
-      let text = field.join(', ');
-      text = `Number of students in ${index}: ${field.length}. List: ${text}`;
-      globalText.push(text);
-    }
-    return globalText;
-  } catch (error) {
-    throw new Error('Cannot load the database');
-  }
-};
+  });
+}
+
 const app = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
   if (req.url === '/') {
-    res.write('Hello Holberton School!');
-    res.end();
+    res.end('Hello Holberton School!');
   }
   if (req.url === '/students') {
-    res.write('This is the list of our students\n');
-    countStudents(res)
+    countStudents('database.csv')
       .then((data) => {
+        res.write('This is the list of our students\n');
         res.end(data.join('\n'));
       })
       .catch((err) => {
@@ -51,5 +57,6 @@ const app = http.createServer((req, res) => {
       });
   }
 });
+
 app.listen(1245);
 module.exports = app;
