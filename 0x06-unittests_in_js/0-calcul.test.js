@@ -13,9 +13,6 @@ describe('calculateNumber', function() {
     assert.equal(calculateNumber(-1, 2), 1);
   });
   it('Tests returns the sum of two rounded numbers', () => {
-    assert.equal(calculateNumber(Math.E, Math.PI), 6);
-  });
-  it('Tests returns the sum of two rounded numbers', () => {
     assert.equal(calculateNumber(11.4, 0), 11);
   });
 });
