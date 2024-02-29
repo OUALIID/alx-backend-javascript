@@ -1,7 +1,9 @@
 <div align="center">
-  <h1>Comprehensive Guide to Testing in Node.js with Mocha, Chai, and ✨Sinon✨</h1></div
+  <h1>Comprehensive Guide to Testing in Node.js with Mocha, Chai, and ✨Sinon✨</h1>
 
-![download](https://github.com/OUALIID/alx-backend-javascript/assets/96590775/e8241aae-5ef8-4dc4-a699-9330ac91a68c)
+<p><img src="https://github.com/OUALIID/alx-backend-javascript/assets/96590775/e8241aae-5ef8-4dc4-a699-9330ac91a68c" alt="Wildcard Address" width="800px" height="420px"></p></div>
+
+
 
 ## Table of Contents:
 <ol>
