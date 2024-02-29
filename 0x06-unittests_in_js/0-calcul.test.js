@@ -8,4 +8,14 @@ describe('calculateNumber', function() {
     assert.strictEqual(calculateNumber(1.2, 3.7), 5);
     assert.strictEqual(calculateNumber(1.5, 3.7), 6);
   });
+  it('Tests returns the sum of two rounded numbers', () => {
+    assert.equal(calculateNumber(3, -7), -4);
+    assert.equal(calculateNumber(-1, 2), 1);
+  });
+  it('Tests returns the sum of two rounded numbers', () => {
+    assert.equal(calculateNumber(Math.E, Math.PI), 6);
+  });
+  it('Tests returns the sum of two rounded numbers', () => {
+    assert.equal(calculateNumber(11.4, 0), 11);
+  });
 });
