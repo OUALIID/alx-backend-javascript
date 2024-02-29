@@ -2,9 +2,8 @@ const request = require('request');
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-/* eslint-disable */
 describe('apiTesting /', () => {
-  it('Testing correct statusCode...', (done) => {
+  it('The test should return the correct status code', (done) => {
     request('http://localhost:7865/', (error, response) => {
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.equal('Welcome to the payment system');
@@ -17,20 +16,20 @@ describe('apiTesting /', () => {
 });
 
 describe('apiTesting /cart/:ip', () => {
-  it('Testing correct id type...', (done) => {
+  it('The test should return the correct result', (done) => {
     request('http://localhost:7865/cart/1', (error, response) => {
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.equal('Payment methods for cart 1');
       done();
     });
   });
-  it('Testing wrong id type...', (done) => {
+  it('The test should return the correct result', (done) => {
     request('http://localhost:7865/cart/hello', (error, response) => {
       expect(response.statusCode).to.equal(404);
       done();
     });
   });
-  it('Testing correct content...', (done) => {
+  it('The test should return the correct result', (done) => {
     request('http://localhost:7865/cart', (error, response) => {
       expect(response.statusCode).to.equal(404);
       done();
