@@ -5,85 +5,79 @@ const sinon = require('sinon');
 const url = 'http://localhost:7865';
 
 describe('apiTesting /', () => {
-  it('Testing correct statusCode and log message', (done) => {
-    request(url, (error, response) => {
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.equal('Welcome to the payment system');
+  it('Testing correct statusCode...', (done) => {
+    request(`${url}`, (error, res) => {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('Welcome to the payment system');
       const consoleLog = sinon.spy(console, 'log');
-      setTimeout(() => {
-        expect(consoleLog.calledWith('API available on localhost port 7865')).to.be.true;
-        consoleLog.restore();
-        done();
-      }, 1000);
+      expect(consoleLog.calledWith('API available on localhost port 7865'));
+      consoleLog.restore();
+      done();
     });
   });
 });
 
-describe('apiTesting /cart/:id', () => {
-  it('Testing correct id type and content', (done) => {
-    request(`${url}/cart/1`, (error, response) => {
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.equal('Payment methods for cart 1');
+describe('apiTesting /cart/:ip', () => {
+  it('Testing correct id type...', (done) => {
+    request(`${url}/cart/1`, (error, res) => {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('Payment methods for cart 1');
       done();
     });
   });
-
-  it('Testing wrong id type', (done) => {
-    request(`${url}/cart/hello`, (error, response) => {
-      expect(response.statusCode).to.equal(404);
+  it('Testing wrong id type...', (done) => {
+    request(`${url}/cart/hello`, (error, res) => {
+      expect(res.statusCode).to.equal(404);
       done();
     });
   });
-
-  it('Testing correct content for invalid cart endpoint', (done) => {
-    request(`${url}/cart`, (error, response) => {
-      expect(response.statusCode).to.equal(404);
+  it('Testing correct content...', (done) => {
+    request(`${url}/cart`, (error, res) => {
+      expect(res.statusCode).to.equal(404);
       done();
     });
   });
 });
 
 describe('apiTesting /available_payments', () => {
-  it('Testing correct status code for available_payments', (done) => {
-    request(`${url}/available_payments`, (error, response) => {
-      expect(response.statusCode).to.equal(200);
+  it('Testing available_payments...', (done) => {
+    request(`${url}/available_payments`, (error, res) => {
+      expect(res.status, 200);
       done();
     });
   });
-
-  it('Testing correct response object for available_payments', (done) => {
-    request(`${url}/available_payments`, (error, response) => {
-      const expectedResponse = {
+  it('Testing available_payments...', (done) => {
+    request(`${url}/available_payments`, (error, res) => {
+      const object = {
         payment_methods: {
           credit_cards: true,
           paypal: false,
         },
       };
-      expect(JSON.parse(response.body)).to.deep.equal(expectedResponse);
+      expect(JSON.parse(res.body)).to.deep.equal(object);
       done();
     });
   });
 });
 
 describe('apiTesting /login', () => {
-  it('Testing correct status code for login', (done) => {
-    const requestOptions = {
+  it('Testing the statusCode...', (done) => {
+    const requestObject = {
       url: `${url}/login`,
-      json: { userName: 'Asmaa' },
+      json: { userName: 'OUALID' },
     };
-    request.post(requestOptions, (error, response) => {
-      expect(response.statusCode).to.equal(200);
+    request.post(requestObject, (error, res, body) => {
+      expect(res.status, 200);
       done();
     });
   });
-
-  it('Testing correct response message for login', (done) => {
-    const requestOptions = {
+  it('Testing with a userName...', (done) => {
+    const requestObject = {
       url: `${url}/login`,
-      json: { userName: 'Asmaa' },
+      json: { userName: 'OUALID' },
     };
-    request.post(requestOptions, (error, response, body) => {
-      expect(body).to.equal('Welcome Asmaa');
+    request.post(requestObject, (error, res, body) => {
+      expect(body).to.equal('Welcome OUALID');
       done();
     });
   });
