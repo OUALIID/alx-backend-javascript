@@ -33,8 +33,6 @@ Mocha provides a flexible structure for organizing tests. You typically use the 
 
 **Example Code:**
 ```javascript
-// test/exampleTest.js
-
 const assert = require('assert');
 
 describe('Array', function() {
@@ -71,8 +69,6 @@ Chai provides several assertion styles, including `expect`, `should`, and `asser
 
 **Example Code:**
 ```javascript
-// test/exampleTest.js
-
 const { expect } = require('chai');
 
 describe('Math', function() {
@@ -108,8 +104,6 @@ Spies are test doubles that record information about function calls. They are pa
 
 **Example Code:**
 ```javascript
-// test/exampleTest.js
-
 const sinon = require('sinon');
 
 describe('Spy', function() {
@@ -142,8 +136,6 @@ Stubs are similar to spies but also replace the behavior of the original functio
 
 **Example Code:**
 ```javascript
-// test/exampleTest.js
-
 const sinon = require('sinon');
 
 describe('Stub', function() {
@@ -177,8 +169,6 @@ Hooks in Mocha allow you to run setup and teardown code before and after tests. 
 
 **Example Code:**
 ```javascript
-// test/exampleTest.js
-
 describe('Hooks', function() {
   before(function() {
     // runs once before all tests in this block
@@ -234,8 +224,6 @@ Mocha supports testing asynchronous code using callbacks, Promises, or `async/aw
 
 **Example Code:**
 ```javascript
-// test/exampleTest.js
-
 describe('Async', function() {
   it('should test an asynchronous function with done callback', function(done) {
     setTimeout(function() {
@@ -286,8 +274,6 @@ For integration tests with a Node server, you can use libraries like `supertest`
 
 **Example Code:**
 ```javascript
-// test/integrationTest.js
-
 const request = require('supertest');
 const app = require('../app'); // assuming your app is defined in app.js
 
