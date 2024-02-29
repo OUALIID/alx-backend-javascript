@@ -3,27 +3,34 @@ const sendPaymentRequestToApi = require('./5-payment');
 const Utils = require('./utils');
 
 describe('sendPaymentRequestToApi', () => {
-  let stub, consoleStub;
+  let stub;
+  let consoleLog;
 
   beforeEach(() => {
-    stub = sinon.stub(Utils, 'calculateNumber').returns(10);
-    consoleStub = sinon.stub(console, 'log');
+    stub = sinon.stub(Utils, 'calculateNumber');
+    consoleLog = sinon.spy(console, 'log');
+  });
+
+  it('Testing with totalAmount = 150 and totalShipping = 30', () => {
+    stub.returns(180);
+
+    sendPaymentRequestToApi(150, 30);
+
+    expect(stub.calledWithExactly('SUM', 150, 30)).to.be.true;
+    expect(consoleLog.calledOnceWith('The total is: 180')).to.be.true;
+  });
+
+  it('Testing with totalAmount = 75 and totalShipping = 25', () => {
+    stub.returns(100);
+
+    sendPaymentRequestToApi(75, 25);
+
+    expect(stub.calledWithExactly('SUM', 75, 25)).to.be.true;
+    expect(consoleLog.calledOnceWith('The total is: 100')).to.be.true;
   });
 
   afterEach(() => {
     stub.restore();
-    consoleStub.restore();
-  });
-
-  it('verifies console.log and Utils.calculateNumber with 100 and 20', () => {
-    sendPaymentRequestToApi(100, 20);
-    sinon.assert.calledWithExactly(consoleStub, 'The total is: 120');
-    sinon.assert.calledWithExactly(stub, 'SUM', 100, 20);
-  });
-
-  it('verifies console.log and Utils.calculateNumber with 10 and 10', () => {
-    sendPaymentRequestToApi(10, 10);
-    sinon.assert.calledWithExactly(consoleStub, 'The total is: 20');
-    sinon.assert.calledWithExactly(stub, 'SUM', 10, 10);
+    consoleLog.restore();
   });
 });
