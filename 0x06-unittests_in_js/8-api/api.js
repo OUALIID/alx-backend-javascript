@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const port = 7865;
 
@@ -9,3 +10,5 @@ app.get('/', (req, res) => {
 app.listen(port, function() {
   console.log(`API available on localhost port ${port}`);
 });
+
+module.exports = app;
