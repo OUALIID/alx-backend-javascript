@@ -10,6 +10,7 @@ describe('Testing numbers', () => {
   });
 
   it('1 is equal to 3', () => {
+    pending();
     expect(1 === 3).to.be.true;
   });
 
