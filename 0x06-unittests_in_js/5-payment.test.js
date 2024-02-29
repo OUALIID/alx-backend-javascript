@@ -1,37 +1,33 @@
 const sinon = require('sinon');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const utils = require('./utils');
 const sendPaymentRequestToApi = require('./5-payment');
 
 describe('sendPaymentRequestToApi', () => {
-    let stub;
-    let consoleLog;
-  
-    beforeEach(() => {
-      stub = sinon.stub(Utils, 'calculateNumber');
-      consoleLog = sinon.spy(console, 'log');
-    });
-  
-    it('Testing with totalAmount = 150 and totalShipping = 30', () => {
-      stub.returns(180);
-  
-      sendPaymentRequestToApi(150, 30);
-  
-      expect(stub.calledWithExactly('SUM', 150, 30)).to.be.true;
-      expect(consoleLog.calledOnceWith('The total is: 180')).to.be.true;
-    });
-  
-    it('Testing with totalAmount = 75 and totalShipping = 25', () => {
-      stub.returns(100);
-  
-      sendPaymentRequestToApi(75, 25);
-  
-      expect(stub.calledWithExactly('SUM', 75, 25)).to.be.true;
-      expect(consoleLog.calledOnceWith('The total is: 100')).to.be.true;
-    });
-  
-    afterEach(() => {
-      stub.restore();
-      consoleLog.restore();
-    });
-  });  
+  let stub;
+  let consoleLog;
+
+  beforeEach(() => {
+    stub = sinon.stub(utils, 'calculateNumber');
+    consoleLog = sinon.spy(console, 'log');
+  });
+
+  afterEach(() => {
+    stub.restore();
+    consoleLog.restore();
+  });
+
+  it('should call Utils.calculateNumber with 100 and 20, and log "The total is: 120"', () => {
+    stub.returns(120);
+    sendPaymentRequestToApi(100, 20);
+    expect(stub.calledWithExactly('SUM', 100, 20)).to.be.true;
+    expect(consoleLog.calledOnceWith('The total is: 120')).to.be.true;
+  });
+
+  it('should call Utils.calculateNumber with 10 and 10, and log "The total is: 20"', () => {
+    stub.returns(20);
+    sendPaymentRequestToApi(10, 10);
+    expect(stub.calledWithExactly('SUM', 10, 10)).to.be.true;
+    expect(consoleLog.calledOnceWith('The total is: 20')).to.be.true;
+  });
+});
